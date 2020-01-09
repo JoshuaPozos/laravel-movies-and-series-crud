@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Person;
 
 class PersonController extends Controller
 {
@@ -13,7 +14,13 @@ class PersonController extends Controller
      */
     public function index()
     {
-        //
+        $collection_Person = Person::all();
+
+        // dd($collection_Person);
+
+        return view('person/index', [
+            'person' => $collection_Person,
+        ]);
     }
 
     /**
@@ -23,7 +30,7 @@ class PersonController extends Controller
      */
     public function create()
     {
-        //
+        return view('person/create');
     }
 
     /**
@@ -34,7 +41,23 @@ class PersonController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'person_Name'   => 'required',
+            'person_Role'   => 'required',
+        ]);
+
+
+        $person = new Person();
+
+        $store = [];
+
+        foreach ($validated as $column => $value) {
+            $store[$column] = $value;
+        }
+
+        $person->fill($store)->save();
+
+        return redirect()->action('PersonController@index');
     }
 
     /**

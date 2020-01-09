@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 Route::resource('video', 'VideoController');
 Route::resource('genre', 'GenreController');
+Route::resource('person', 'PersonController');
 
 Route::get('storage/{filename}', function ($filename) {
     $path = storage_path('public/' . $filename);

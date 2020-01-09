@@ -17,6 +17,21 @@ class Person extends Model
     protected $table = "person";
 
     /**
+     * Define custom Created_At
+     */
+    const CREATE_AT = "person_CreatedAt";
+
+    /**
+     * Define custom Updated_At
+     */
+    const UPDATED_AT = "person_UpdatedAt";
+
+    /**
+     * Remove default timestamps
+     */
+    public $timestamps = false;
+
+    /**
      * Fillable Fields
      */
     protected $fillable = [

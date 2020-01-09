@@ -37,17 +37,29 @@
             <div class="row m-5">
                 <h1>All Casts</h1>
             </div>
-            <div class="row mt- 5">
+            <div class="row flex-column mt-5">
+                <h2>Directors</h2>
                 @foreach($person as $people)
-
+                    @if($people->person_Role == "Director")
                     <div class="col col-md-4 mx-auto video-card mb-5">
                         <h2>{{$people->person_Name}}</h2>
 
-                        <div class="video-edit mt-2 text-center ">
-                            {{-- <a class="btn btn-primary p-2 mx-auto" href="{{action('VideoController@show', $video->video_ID)}}">Learn More</a> --}}
-                        </div>
+                        <a class="btn btn-secondary" href="{{action('PersonController@edit', $people->person_ID)}}">Edit</a>
                     </div>
+                    @endif
+                @endforeach
+            </div>
+            <div class="row flex-column mt-5">
+                <h2>Stars</h2>
+                @foreach($person as $people)
 
+                    @if($people->person_Role == "Stars")
+                    <div class="col col-md-4 mx-auto video-card mb-5">
+                        <h2>{{$people->person_Name}}</h2>
+
+                        <a class="btn btn-secondary" href="{{action('PersonController@edit', $people->person_ID)}}">Edit</a>
+                    </div>
+                    @endif
                 @endforeach
             </div>
         </div>

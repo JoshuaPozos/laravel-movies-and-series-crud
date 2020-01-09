@@ -46,7 +46,6 @@ class PersonController extends Controller
             'person_Role'   => 'required',
         ]);
 
-
         $person = new Person();
 
         $store = [];
@@ -79,7 +78,11 @@ class PersonController extends Controller
      */
     public function edit($id)
     {
-        //
+        $person = Person::find($id);
+
+        return view('person/edit', [
+            'person' => $person,
+        ]);
     }
 
     /**
@@ -91,7 +94,22 @@ class PersonController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $person = Person::find($id);
+
+        $validated = $request->validate([
+            'person_Name'   => 'required',
+            'person_Role'   => 'required',
+        ]);
+
+        $store = [];
+
+        foreach ($validated as $column => $value) {
+            $store[$column] = $value;
+        }
+
+        $person->fill($store)->update();
+
+        return redirect()->route('person.index');
     }
 
     /**

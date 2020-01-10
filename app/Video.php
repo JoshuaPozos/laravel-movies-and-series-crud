@@ -47,6 +47,13 @@ class Video extends Model
         'video_UpdatedAt',
     ];
 
+
+
+    public function people()
+    {
+        return $this->belongsToMany('App\Person', 'videoPerson', 'video_ID', 'person_ID');
+    }
+
     /**
      * Get the comments for the blog post.
      */

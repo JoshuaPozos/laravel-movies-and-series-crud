@@ -41,7 +41,7 @@ class Person extends Model
         'person_UpdatedAt',
     ];
 
-    public function videoPerson()
+    public function people()
     {
         return $this->belongsToMany('App\Person', 'videoPerson', 'video_ID', 'person_ID');
     }

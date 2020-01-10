@@ -15,8 +15,8 @@ class ChapterController extends Controller
     public function index()
     {
         //
-        $chapter=Chapter::orderBy('id','DESC')->paginate(3);
-        return view('Chapter.index',compact('chapter'));
+        $chapter = Chapter::orderBy('id', 'DESC')->paginate(3);
+        return view('Chapter.index', compact('chapter'));
     }
 
     /**
@@ -27,7 +27,7 @@ class ChapterController extends Controller
     public function create()
     {
         //
-        return view('Chapter.create')
+        return view('Chapter.create');
     }
 
     /**
@@ -38,13 +38,6 @@ class ChapterController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        // $this->validate($request,[ 'nombre'=>'required', 'resumen'=>'required', 'npagina'=>'required', 'edicion'=>'required', 'autor'=>'required', 'npagina'=>'required', 'precio'=>'required']);
-        // Libro::create($request->all());
-        // return redirect()->route('libro.index')->with('success','Registro creado satisfactoriamente');
-
-
-
     }
 
     /**
@@ -53,11 +46,11 @@ class ChapterController extends Controller
      * @param  \App\Chapter  $chapter
      * @return \Illuminate\Http\Response
      */
-    public function show(Chapter $chapter)
+    public function show($id)
     {
         //
-        $chapter=Chapter::find($id);
-        return  view('Chapter.show',compact('chapter'));
+        $chapter = Chapter::find($id);
+        return  view('Chapter.show', compact('chapter'));
     }
 
     /**

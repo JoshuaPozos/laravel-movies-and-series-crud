@@ -3,12 +3,9 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
         <title>Edit Video</title>
-
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-
         <!-- Styles -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     </head>
@@ -29,7 +26,6 @@
                     <form action="{{action('VideoController@update', $video->video_ID)}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('put')
-
                         <label for="video_Name">Video Name</label>
                         <input type="text" name="video_Name" value="{{ $video->video_Name }}" />
                         <br>
@@ -47,14 +43,28 @@
                         <input type="number" name="video_Year"  min="1900" max="2099" step="1" placeholder="YYYY" value="{{$video->video_Year}}" />
                         <br>
                         <p>Select Type</p>
-                        <select name="video_Type" >
+                        <select name="video_Type" class="mb-3">
                             <option value="Movie">Movie</option>
                             <option value="Serie">Serie</option>
                         </select>
+                        <h2>Add Director:</h2>
+                        @foreach ($persons as $person)
+                            @if($person->person_Role === "Director")
+                                <label for="{{$person->person_ID}}">{{$person->person_Name}}</label>
+                                <input type="checkbox" name="person[]" value="{{$person->person_ID}}" id="{{$person->person_ID}}">
+                                <br>
+                            @endif
+                        @endforeach
                         <br>
-                        {{-- <label for="genre_ID">Genre</label>
-                        <input type="text" name="genre_ID" value="{{ old('genre_ID') }}" />
-                        <br> --}}
+                        <h2>Add Stars:</h2>
+                        @foreach ($persons as $person)
+                            @if($person->person_Role === "Stars")
+                                <label for="{{$person->person_ID}}">{{$person->person_Name}}</label>
+                                <input type="checkbox" name="person[]" value="{{$person->person_ID}}" id="{{$person->person_ID}}">
+                                <br>
+                            @endif
+                        @endforeach
+                        <br>
                         <p>Select Genre</p>
                         <select id="genre_ID" name="genre_ID" class="mb-5">
                             @foreach($genres as $genre)

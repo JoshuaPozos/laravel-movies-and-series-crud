@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
 use App\Video;
 use App\Genre;
+use App\Person;
 
 class VideoController extends Controller
 {
@@ -22,17 +22,12 @@ class VideoController extends Controller
         $collection_Video = Video::all();
         $collection_Genre = Genre::all();
         $collection_StorageImages = Storage::disk('video');
-        // $files = Storage::disk('video')->get($collection_Video);
 
-
-        // dd($collection_Video);
         return view('video/index', [
             'videos' => $collection_Video,
             'genres' => $collection_Genre,
             'images' => $collection_StorageImages,
-            //  'videoImages' => $files
         ]);
-        // $exists = Storage::disk('s3')->exists('file.jpg');
     }
 
     /**
@@ -63,7 +58,6 @@ class VideoController extends Controller
         $validated = $request->validate([
             'video_Name'        => 'required',
             'video_Duration'    => 'required',
-            // 'video_Image'       => 'nullable|image|mimes:jpeg,jpg,png|max:42048',
             'video_Description' => 'required',
             'video_Year'        => 'required',
             'video_Type'        => 'required',
@@ -93,6 +87,9 @@ class VideoController extends Controller
         return redirect()->action('VideoController@index');
     }
 
+
+
+
     /**
      * Display the specified resource.
      *
@@ -120,10 +117,12 @@ class VideoController extends Controller
 
         $video = Video::find($id);
         $collection_Genre = Genre::all();
+        $collection_Person = Person::all();
 
         return view('video/edit', [
             'video' => $video,
             'genres' => $collection_Genre,
+            'persons' => $collection_Person,
         ]);
     }
 
@@ -143,12 +142,12 @@ class VideoController extends Controller
         $validated = $request->validate([
             'video_Name'        => 'required',
             'video_Duration'    => 'required',
-            // 'video_Image'       => 'nullable|image|mimes:jpeg,jpg,png|max:42048',
             'video_Description' => 'required',
             'video_Year'        => 'required',
             'video_Type'        => 'required',
             'genre_ID'          => 'required',
             'season_ID'         => 'nullable',
+            'person'            => 'nullable',
         ]);
 
         if ($video_image) {
@@ -163,10 +162,14 @@ class VideoController extends Controller
         $store = [];
 
         foreach ($validated as $column => $value) {
+            if ($column == 'person') continue;
+
             $store[$column] = $value;
         }
 
         $video->fill($store)->update();
+
+        $video->people()->sync($validated['person']);
 
         return redirect()->route('video.show', $id);
     }

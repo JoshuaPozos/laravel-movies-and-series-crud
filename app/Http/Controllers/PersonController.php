@@ -16,8 +16,6 @@ class PersonController extends Controller
     {
         $collection_Person = Person::all();
 
-        // dd($collection_Person);
-
         return view('person/index', [
             'person' => $collection_Person,
         ]);
